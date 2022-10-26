@@ -1,11 +1,30 @@
-server:
-  port: 8206
+#server:
+#  port: 8206
 spring:
   application:
-    name: consul-user-service
+    name: consul-user-service  # 微服务名称
+#  profiles:
+#    active: dev
   cloud:
     consul: #Consul服务注册发现配置
       host: localhost
       port: 8500
       discovery:
         service-name: ${spring.application.name}
+
+# 分段式: 这种写法就是类似与写了三个配置文件,上面的为共用配置;
+#也就是说每一个分段代表了一个配置文件,即application-dev.yml,application-prod.yml,application-7902.yml
+---
+#开发环境配置
+server:
+  port: 8206
+spring:
+  profiles: dev
+---
+#生产环境配置
+server:
+  port: 8207
+spring:
+  profiles: prod
+
+
