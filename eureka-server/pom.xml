@@ -20,6 +20,7 @@
     </properties>
 
     <dependencies>
+        <!--由于eureka-server已经依赖了spring-boot-starter-web，所以这里不需要再单独导入一次web依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
@@ -32,6 +33,7 @@
         </dependency>
     </dependencies>
 
+    <!--dependencyManagement 表示只申明，不会导入具体pom-->
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -39,6 +41,7 @@
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
+                <!--导入依赖的pom.xml-->
                 <scope>import</scope>
             </dependency>
         </dependencies>

@@ -25,6 +25,7 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
+        <!--由于 eureka-client 没有依赖spring-boot-starter-web，所以这里需要再单独导入一次web依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

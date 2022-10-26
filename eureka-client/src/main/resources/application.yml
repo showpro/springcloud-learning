@@ -1,8 +1,10 @@
 server:
   port: 8101 #运行端口号
+
 spring:
   application:
-    name: eureka-client #服务名称
+    name: eureka-client #应用服务名称
+
 eureka:
   client:
     register-with-eureka: true #注册到Eureka的注册中心

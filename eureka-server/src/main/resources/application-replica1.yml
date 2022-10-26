@@ -1,3 +1,4 @@
+# 第一个注册中心
 server:
   port: 8002
 spring:
@@ -5,9 +6,12 @@ spring:
     name: eureka-server
 eureka:
   instance:
-    hostname: replica1
+    # eureka server 实例所在的服务器的主机名。本地环境需要在hosts中配置,映射到ip上
+    hostname: eureka-7900
   client:
+    #设置服务注册中心的URL
     serviceUrl:
-      defaultZone: http://replica2:8003/eureka/ #注册到另一个Eureka注册中心
+      #把自己的信息注册到另一个Eureka注册中心，多个以逗号给开。由于defaultZone使用了域名，所以还需在本机的host文件中配置一下。
+      defaultZone: http://eureka-7901:8003/eureka/
     fetch-registry: true
     register-with-eureka: true
