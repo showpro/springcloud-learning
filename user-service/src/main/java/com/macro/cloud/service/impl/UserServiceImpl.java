@@ -61,6 +61,9 @@ public class UserServiceImpl implements UserService {
         return userList.stream().filter(userItem -> ids.contains(userItem.getId())).collect(Collectors.toList());
     }
 
+    /**
+     * 服务启动的时候，初始化一些数据
+     */
     @PostConstruct
     public void initData() {
         userList = new ArrayList<>();

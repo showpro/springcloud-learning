@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
-@EnableCircuitBreaker
+@EnableCircuitBreaker //开启Hystrix的断路器功能
 @EnableDiscoveryClient
 @SpringBootApplication
 public class HystrixServiceApplication {

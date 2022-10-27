@@ -9,8 +9,10 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8001/eureka/
+# 访问 user-service 服务
 service-url:
   user-service: http://user-service
+# 通过 Spring Actuator 优雅的关闭项目。使用postman发送post请求: http://localhost:8001/actuator/shutdown
 management:
   endpoints:
     web:
