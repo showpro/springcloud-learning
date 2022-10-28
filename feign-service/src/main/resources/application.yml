@@ -14,4 +14,4 @@ feign:
     enabled: true #在Feign中开启Hystrix
 logging:
   level:
-    com.macro.cloud.service.UserService: debug
+    com.macro.cloud.service.UserService: debug  # 配置需要开启日志的Feign客户端UserService的日志级别为debug。
