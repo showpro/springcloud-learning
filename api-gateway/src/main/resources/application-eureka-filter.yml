@@ -1,0 +1,26 @@
+server:
+  port: 9201
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: prefixpath_route
+          uri: lb://user-service #此处需要使用lb协议
+          predicates:
+            - Method=GET
+          filters:
+            - PrefixPath=/user
+      discovery:
+        locator:
+          enabled: true
+      # 上面使用了PrefixPath过滤器，会为所有GET请求路径添加/user路径并路由；
+      # 使用application-eureka-filter.yml配置文件启动api-gateway服务，访问http://localhost:9201/1 ，可以路由到user-service的http://localhost:8201/user/1 处。
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8001/eureka/
+logging:
+  level:
+    org.springframework.cloud.gateway: debug

@@ -12,10 +12,10 @@ spring:
           predicates:
             - Method=GET
           filters:
-            - name: Retry
+            - name: Retry # 过滤器名称
               args:
-                retries: 1 #需要进行重试的次数
-                statuses: BAD_GATEWAY #返回哪个状态码需要进行重试，返回状态码为5XX进行重试
+                retries: 1 #需要进行重试的次数。访问测试地址：http://localhost:9201/user/111 可以发现user-service控制台报错2次，说明进行了 1次重试。
+                statuses: BAD_GATEWAY #根据返回哪个状态码来确定是否需要进行重试，返回状态码为5XX进行重试。
                 backoff:
                   firstBackoff: 10ms
                   maxBackoff: 50ms

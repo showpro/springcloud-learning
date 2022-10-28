@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 服务降级的处理类：
  * Created by macro on 2019/9/25.
  */
 @RestController

@@ -1,12 +1,14 @@
 server:
   port: 9201
+
 service-url:
-  user-service: http://localhost:8201
+  user-service: http://localhost:8201 # user-service 服务
+
 spring:
   cloud:
     gateway:
       routes:
         - id: path_route #路由的ID
-          uri: ${service-url.user-service}/user/{id} #匹配后路由地址
-          predicates: # 断言，路径相匹配的进行路由
-            - Path=/user/{id}
+          uri: ${service-url.user-service}/user/{id} #匹配后路由地址（目标地址）
+          predicates: # 断言，如果请求路径与断言相匹配的则进行路由。比如访问：http://localhost:9201/user/1
+            - Path=/user/{id} # 发送指定路径的请求会匹配该路由
