@@ -1,5 +1,6 @@
 server:
   port: 8901
+
 spring:
   application:
     name: config-server
@@ -7,11 +8,14 @@ spring:
     config:
       server:
         git: #配置存储配置信息的Git仓库
-          uri: https://gitee.com/macrozheng/springcloud-config.git
-          username: macro
-          password: 123456
+          uri: https://gitee.com/hdutest/springcloud-test-config.git
+#          username: xiaoz
+#          password: xxxx
           clone-on-start: true #开启启动时直接从git获取配置
-#          search-paths: '{application}'
+          ##搜索目录.这个目录指的是git上的目录 https://gitee.com/hdutest/springcloud-test-config.git
+          search-paths:
+            - config-repo
+
 eureka:
   client:
     service-url:

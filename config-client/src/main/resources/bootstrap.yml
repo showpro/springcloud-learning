@@ -5,14 +5,17 @@ spring:
     name: config-client
   cloud:
     config: #Config客户端配置
-      profile: dev #启用配置后缀名称
-      label: dev #分支名称
-      uri: http://localhost:8901 #配置中心地址
+      label: dev #分支名称,注意到底是master还是main 还是dev
       name: config #配置文件名称
+      profile: dev #启用配置后缀名称
+      uri: http://localhost:8901 #配置中心地址
+      #上面4个综合起来就是 dev分支上 config-dev.yml：http://localhost:8901/dev/config-dev.yml
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8001/eureka/
+
+# 暴露监控端点。
 management:
   endpoints:
     web:

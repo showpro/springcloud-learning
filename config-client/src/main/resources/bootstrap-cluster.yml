@@ -5,9 +5,10 @@ spring:
     name: config-client
   cloud:
     config:
-      profile: dev #启用环境名称
       label: dev #分支名称
+      profile: dev #启用环境名称
       name: config #配置文件名称
+#     config-sever集群搭建后，config-client这里去除了配置中心uri的配置，从注册中心获取配置中心地址
       discovery:
         enabled: true
         service-id: config-server
