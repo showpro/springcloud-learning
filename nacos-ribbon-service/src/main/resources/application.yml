@@ -1,11 +1,15 @@
 server:
   port: 8308
+# 应用名称（nacos会将该名称当作服务名称）
 spring:
   application:
     name: nacos-ribbon-service
   cloud:
     nacos:
       discovery:
-        server-addr: localhost:8848
+        server-addr: localhost:8848 # nacos 的服务地址
+        username: nacos #后台登录名称，可以不写
+        password: nacos
+        namespace: public  # 可以改为 dev test prod等
 service-url:
   nacos-user-service: http://nacos-user-service
