@@ -11,5 +11,6 @@ spring:
         username: nacos #后台登录名称，可以不写
         password: nacos
         namespace: public  # 可以改为 dev test prod等
+# 服务调用地址
 service-url:
   nacos-user-service: http://nacos-user-service
