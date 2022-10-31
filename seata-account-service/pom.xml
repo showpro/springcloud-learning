@@ -16,12 +16,12 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <spring-cloud.version>Greenwich.SR2</spring-cloud.version>
+        <spring-cloud.version>2021.0.1</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
         <mysql-connector-java.version>5.1.37</mysql-connector-java.version>
         <mybatis-spring-boot-starter.version>2.0.0</mybatis-spring-boot-starter.version>
         <druid-spring-boot-starter.version>1.1.10</druid-spring-boot-starter.version>
         <lombok.version>1.18.8</lombok.version>
-        <seata.version>0.9.0</seata.version>
     </properties>
 
     <dependencies>
@@ -30,22 +30,27 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-        <!--seata-->
+        <!--分布式事务 seata- -->
+        <!--移除alibaba-seata自带的seata-spring-boot-starter，因为自带的版本太低 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+            <version>2021.0.1.0</version>
+            <!--需要排除低版本的seata，手动引入1.5.1-->
             <exclusions>
                 <exclusion>
-                    <artifactId>seata-all</artifactId>
                     <groupId>io.seata</groupId>
+                    <artifactId>seata-spring-boot-starter</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--添加seata-spring-boot-starter依赖，版本需要与服务端版本相对应，此版本使用1.5.1 -->
         <dependency>
             <groupId>io.seata</groupId>
-            <artifactId>seata-all</artifactId>
-            <version>${seata.version}</version>
+            <artifactId>seata-spring-boot-starter</artifactId>
+            <version>1.5.1</version>
         </dependency>
+
         <!--feign-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -95,7 +100,7 @@
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>2.1.0.RELEASE</version>
+                <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
