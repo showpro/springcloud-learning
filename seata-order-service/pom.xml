@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.7.RELEASE</version>
+        <version>2.6.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.macro.cloud</groupId>
@@ -29,6 +29,16 @@
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <!--SpringCloudAlibaba2021.0.1.0版本移除了对bootstrap.yml支持。
+        看spring-cloud-starter-alibaba-nacos-config依赖关系中虽然引入了spring-cloud-starter-bootstrap，但是不会生效，必须重新引入bootstrap的依赖-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
         <!--分布式事务 seata- -->
         <!--移除alibaba-seata自带的seata-spring-boot-starter，因为自带的版本太低 -->

@@ -1,12 +1,12 @@
 server:
-  port: 8181
+  port: 8180
 
 spring:
   application:
-    name: seata-storage-service
+    name: seata-order-service
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/seata-storage
+    url: jdbc:mysql://localhost:3306/seata-order
     username: root
     password: 123456
 
@@ -19,8 +19,9 @@ seata:
   # 服务配置项
   service:
     # 虚拟组和分组的映射
-    vgroupMapping:
-      seata-storage-service_group: default   #该配置需要与服务端提到的group相对应
+    vgroupMapping.seata-account-service_group: default   #该配置需要与服务端提到的group相对应
+    grouplist.default: 127.0.0.1:8091  # 仅注册中心为file时使用
+  #    grouplist.seata-server: 127.0.0.1:8091   # # seata-server的地址
   # 配置中心，需要和 seata server 保持一致
   config:
     # support: nacos, consul, apollo, zk, etcd3
@@ -28,11 +29,12 @@ seata:
     nacos:
       # nacos ip:port地址
       server-addr: 127.0.0.1:8848
-      namespace: #命名空间，使用默认的不用填
+      namespace: ac7e7782-db5f-41bb-a9af-a24a8c5ef799 #命名空间，需要与服务端添加的配置文件相同
       group: SEATA_GROUP
       username: nacos
       password: nacos
       data-id: seataServer.properties # 与nacos配置中心指定的配置data-id名称一致
+
   # 配置中心，需要和 seata server 保持一致
   registry:
     # support: nacos, eureka, redis, zk, consul, etcd3, sofa
@@ -41,10 +43,11 @@ seata:
       application: seata-server  # seata 注册服务名
       server-addr: 127.0.0.1:8848
       group: SEATA_GROUP
-      namespace: #命名空间，使用默认的不用填
-      # cluster: default
+      namespace: ac7e7782-db5f-41bb-a9af-a24a8c5ef799 #命名空间
+      #      cluster: default
       username: nacos
       password: nacos
+
 
 logging:
   level:
