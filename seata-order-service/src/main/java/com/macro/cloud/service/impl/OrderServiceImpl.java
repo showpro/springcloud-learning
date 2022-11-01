@@ -30,7 +30,6 @@ public class OrderServiceImpl implements OrderService {
     /**
      * 流程：创建订单->调用库存服务扣减库存->调用账户服务扣减账户余额->修改订单状态
      */
-    @Override
     @GlobalTransactional(name = "fsp-create-order",rollbackFor = Exception.class)
     public void create(Order order) {
         LOGGER.info("------->下单开始");

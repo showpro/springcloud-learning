@@ -1,15 +1,15 @@
 server:
-  port: 8180
+  port: 8181
 spring:
   application:
-    name: seata-order-service
+    name: seata-storage-service
   cloud:
     nacos:
       discovery:
         server-addr: localhost:8848 #Nacos 服务注册与发现地址
       config:
         server-addr: localhost:8848 #Nacos 配置中心地址
-        namespace: prod #bootstrap.yml命名空间ID
+        namespace: prod #命名空间ID
         username: nacos
         password: nacos
 #        file-extension: yml #这里我们获取的yaml格式的配置
