@@ -2,6 +2,7 @@ package com.macro.cloud.service.impl;
 
 import com.macro.cloud.dao.StorageDao;
 import com.macro.cloud.service.StorageService;
+import io.seata.core.context.RootContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public void decrease(Long productId, Integer count) {
         LOGGER.info("------->storage-service中扣减库存开始");
+        LOGGER.info("# seata xid:{}", RootContext.getXID());
         storageDao.decrease(productId,count);
         LOGGER.info("------->storage-service中扣减库存结束");
     }

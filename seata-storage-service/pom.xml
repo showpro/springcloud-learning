@@ -20,6 +20,7 @@
         <spring-boot.version>2.7.0</spring-boot.version>
         <spring-cloud.version>2021.0.2</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
+        <seata.version>1.5.2</seata.version>
         <mysql-connector-java.version>5.1.37</mysql-connector-java.version>
         <mybatis-spring-boot-starter.version>2.0.0</mybatis-spring-boot-starter.version>
         <druid-spring-boot-starter.version>1.1.10</druid-spring-boot-starter.version>
@@ -37,7 +38,7 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
         <!--SpringCloudAlibaba2021.0.1.0版本移除了对bootstrap.yml支持。
-        看spring-cloud-starter-alibaba-nacos-config依赖关系中虽然引入了spring-cloud-starter-bootstrap，但是不会生效，必须重新引入bootstrap的依赖-->
+        如果想用bootstrap.yml，必须重新引入bootstrap的依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
@@ -128,20 +129,87 @@
                 <scope>import</scope>
             </dependency>
             <!-- seata分布式事务, 统一管理seata版本-->
-            <!-- https://mvnrepository.com/artifact/io.seata/seata-spring-boot-starter -->
             <dependency>
                 <groupId>io.seata</groupId>
                 <artifactId>seata-spring-boot-starter</artifactId>
-                <version>1.5.2</version>
+                <version>${seata.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
+<!--    <profiles>-->
+<!--        <profile>-->
+<!--            <id>dev</id>-->
+<!--            <activation>-->
+<!--                &lt;!&ndash;默认激活&ndash;&gt;-->
+<!--                <activeByDefault>true</activeByDefault>-->
+<!--            </activation>-->
+<!--            <properties>-->
+<!--                <spring.profiles.active>dev</spring.profiles.active>-->
+<!--            </properties>-->
+<!--        </profile>-->
+
+<!--        &lt;!&ndash;测试环境&ndash;&gt;-->
+<!--        <profile>-->
+<!--            <id>test</id>-->
+<!--            <properties>-->
+<!--                <spring.profiles.active>test</spring.profiles.active>-->
+<!--            </properties>-->
+<!--        </profile>-->
+
+<!--        &lt;!&ndash;开发环境&ndash;&gt;-->
+<!--        <profile>-->
+<!--            <id>dev</id>-->
+<!--            <properties>-->
+<!--                <spring.profiles.active>dev</spring.profiles.active>-->
+<!--            </properties>-->
+<!--        </profile>-->
+<!--        &lt;!&ndash;生产环境&ndash;&gt;-->
+<!--        <profile>-->
+<!--            <id>prod</id>-->
+<!--            <properties>-->
+<!--                <spring.profiles.active>prod</spring.profiles.active>-->
+<!--            </properties>-->
+<!--        </profile>-->
+<!--    </profiles>-->
+    <!-- 配合profiles中配置的环境文件使用，不配置项目启动报错 -->
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- 处理文件时替换文件中的变量 -->
+                <filtering>true</filtering>
+                <excludes>
+                    <!-- 打包时排除文件-->
+                    <exclude>bootstrap.yml</exclude>
+                    <exclude>bootstrap-dev.yml</exclude>
+                    <exclude>bootstrap-test.yml</exclude>
+                    <exclude>bootstrap-prod.yml</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <!-- 打包时所包含得文件 -->
+                <includes>
+                    <include>bootstrap.yml</include>
+                    <include>bootstrap-${spring.profiles.active}.yml</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>
