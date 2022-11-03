@@ -20,7 +20,7 @@ seata:
 #  service:
 #    # 虚拟组和分组的映射
 #    vgroup-mapping:
-#      seata-order-service-tx-group: default   #该配置需要与服务端seata-server.properties提到的group相对应
+#      seata-account-service-tx-group: default   #该配置需要与服务端seata-server.properties提到的group相对应
 #    grouplist:   #当registry.type=file时会用到，其他时候不读。
 #      default: 127.0.0.1:8091
   # 配置中心，需要和 seata server 保持一致
@@ -32,7 +32,7 @@ seata:
 #      server-addr: 127.0.0.1:8848
       serverAddr: ${spring.cloud.nacos.config.server-addr}
 #      namespace: ac7e7782-db5f-41bb-a9af-a24a8c5ef799 #命名空间Id，需要与服务端命名空间Id相同（可以自动生成，也可手动填写）
-      namespace: ${spring.cloud.nacos.config.namespace}
+      namespace: seata
       group: SEATA_GROUP
 #      username: nacos
       username: ${spring.cloud.nacos.config.username}
@@ -45,12 +45,12 @@ seata:
     # support: nacos, eureka, redis, zk, consul, etcd3, sofa
     type: nacos
     nacos:
-      application: seata-server  # seata 注册服务名
+      application: seata-server  # seata 注册服务名,默认为 seata-server
 #      server-addr: 127.0.0.1:8848
       server-addr: ${spring.cloud.nacos.config.server-addr}
       group: SEATA_GROUP
 #      namespace: ac7e7782-db5f-41bb-a9af-a24a8c5ef799 #命名空间Id，需要与服务端命名空间Id相同（可以自动生成，也可手动填写）
-      namespace: ${spring.cloud.nacos.config.namespace}
+      namespace: seata
 #      username: nacos
       username: ${spring.cloud.nacos.config.username}
 #      password: nacos

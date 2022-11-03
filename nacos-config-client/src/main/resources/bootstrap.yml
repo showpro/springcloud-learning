@@ -11,9 +11,14 @@ spring:
         server-addr: localhost:8848 #Nacos 配置中心地址
         file-extension: yml #这里我们获取的yaml格式的配置
         shared-configs: #配置共享文件
-          - data-id: application-common.yml
+          - data-id: application-common.yml   #[0]
             group: PROVIDER_CONFIG_GROUP  #自定义组
             refresh: true # 配置文件修改后是否动态刷新配置
-          - data-id: application-custom.yml
+          - data-id: application-custom.yml    #[1]
             group: PROVIDER_CONFIG_GROUP #自定义组
-            refresh: false
+            refresh: true
+        extension-configs[0]:
+          - data-id: application-custom2.yml
+            refresh: true
+# 配置文件的优先级（优先级大的会覆盖优先级小的，并且会形成互补）
+# (spring.application.name-profile.yml > 默认配置文件(spring.application.name.yml) > extension-configs(下标越大优先级就越大) > shared-configs(下标越大优先级就越大)

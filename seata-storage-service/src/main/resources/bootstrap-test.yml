@@ -1,9 +1,0 @@
-spring:
-  cloud:
-    nacos:
-      # nacos 配置中心地址和 namespace
-      config:
-        enabled: true
-        server-addr: localhost:8848
-        namespace: test
-        group: TEST_GROUP

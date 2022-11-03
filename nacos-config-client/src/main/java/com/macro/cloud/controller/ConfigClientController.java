@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by macro on 2019/9/11.
  */
 @RestController
-@RefreshScope
+@RefreshScope //通过@Value注解获取的注册中心的属性值，需要通过该注解动态感知修改
 public class ConfigClientController {
 
     @Value("${config.info}")

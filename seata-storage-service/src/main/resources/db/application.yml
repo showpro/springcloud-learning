@@ -12,17 +12,17 @@ seata:
   enabled: true
   # Seata 应用编号，默认为 ${spring.application.name}
   application-id: ${spring.application.name}
-  # Seata 事务组编号，用于 TC 集群名。该配置需要与服务端提到的group相对应，也需要与下面的相对应
-  tx-service-group: ${spring.application.name}-tx-group
+  # Seata 事务组编号，异地机房容错机制，用于 TC 集群名。该配置需要与服务端提到的group相对应，也需要与下面的相对应
+  tx-service-group: ${spring.application.name}-tx-group # 可以写成固定 guangzhou、shanghai
   # 是否开启Seata对数据源进行自动代理，默认为 true
   enable-auto-data-source-proxy: false
   # 服务配置项
 #  service:
 #    # 虚拟组和分组的映射
-#    vgroup-mapping:
-#      seata-order-service-tx-group: default   #该配置需要与服务端seata-server.properties提到的group相对应
+#    vgroup-mapping: #注册中心seata-server.properties中如果配置了，这里可以忽略
+#      seata-order-service-tx-group: default   #该配置需要与seata-server.properties的名称对应（值对应下面registry中的 cluster: default）
 
-  # 配置中心，需要和 seata server 保持一致
+  # 配置中心，可以读取关于seata client的一些配置。需要和 seata server 保持一致
   config:
     # support: nacos, consul, apollo, zk, etcd3
     type: nacos
@@ -31,7 +31,7 @@ seata:
 #      server-addr: 127.0.0.1:8848
       serverAddr: ${spring.cloud.nacos.config.server-addr}
 #      namespace: ac7e7782-db5f-41bb-a9af-a24a8c5ef799 #命名空间Id，不是命名空间的名称，需要与服务端命名空间Id相同（可以自动生成，也可手动填写）
-      namespace: ${spring.cloud.nacos.config.namespace}
+      namespace: seata
       group: SEATA_GROUP
 #      username: nacos
       username: ${spring.cloud.nacos.config.username}
@@ -44,16 +44,17 @@ seata:
     # support: nacos, eureka, redis, zk, consul, etcd3, sofa
     type: nacos
     nacos:
-      application: seata-server  # seata 注册服务名
+      application: seata-server  # seata 注册服务名，默认seata-server，如果没有修改可以不配
 #      server-addr: 127.0.0.1:8848
       server-addr: ${spring.cloud.nacos.config.server-addr}
       group: SEATA_GROUP
 #      namespace: ac7e7782-db5f-41bb-a9af-a24a8c5ef799 #命名空间Id，不是命名空间的名称，需要与 Seata服务端命名空间Id相同（可以自动生成，也可手动填写）
-      namespace: ${spring.cloud.nacos.config.namespace}
+      namespace: seata
 #      username: nacos
       username: ${spring.cloud.nacos.config.username}
 #      password: nacos
       password: ${spring.cloud.nacos.config.password}
+      cluster: default
 
 logging:
   level:
