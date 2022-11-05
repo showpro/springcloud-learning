@@ -43,6 +43,14 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
+        <!--添加loadbalancer依赖
+            由于 Netflix Ribbon 进入停更维护阶段，因此 SpringCloud 2020.0.1 版本之后 删除了eureka中的ribbon，替代ribbon的是spring cloud自带的LoadBalancer，默认使用的是轮询的方式
+            新版本的 Nacos discovery 都已经移除了 Ribbon ，此时我们需要引入 loadbalancer 代替，才能调用服务提供者提供的服务
+        -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
         <!--分布式事务 seata- -->
         <!--移除alibaba-seata自带的seata-spring-boot-starter，因为自带的版本太低 -->
         <dependency>
@@ -104,7 +112,6 @@
     <dependencyManagement>
         <dependencies>
             <!-- SpringBoot 依赖配置 -->
-            <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -129,7 +136,6 @@
                 <scope>import</scope>
             </dependency>
             <!-- seata分布式事务, 统一管理seata版本-->
-            <!-- https://mvnrepository.com/artifact/io.seata/seata-spring-boot-starter -->
             <dependency>
                 <groupId>io.seata</groupId>
                 <artifactId>seata-spring-boot-starter</artifactId>
@@ -138,11 +144,89 @@
         </dependencies>
     </dependencyManagement>
 
+    <!--配置测试开发生产环境-->
+    <profiles>
+        <profile>
+            <!--开发环境-->
+            <id>dev</id>
+            <activation>
+                <!--加了这个，默认激活的配置-->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <!--当前环境-->
+                <env>dev</env>
+                <nacosAddr>127.0.0.1:8848</nacosAddr>
+                <!--Nacos配置中心命名空间,用于支持多环境.这里必须使用ID:b1741b1f-d032-4b74-aa5a-6b6beb0d1f15，不能使用名称,默认为空-->
+                <nacosNamespace>dev</nacosNamespace>
+            </properties>
+        </profile>
+
+        <!--测试环境-->
+        <profile>
+            <id>test</id>
+            <properties>
+                <!--当前环境-->
+                <env>test</env>
+                <nacosAddr>127.0.0.1:8848</nacosAddr>
+                <!--Nacos配置中心命名空间,用于支持多环境.这里必须使用ID:b1741b1f-d032-4b74-aa5a-6b6beb0d1f15，不能使用名称,默认为空-->
+                <nacosNamespace>test</nacosNamespace>
+            </properties>
+        </profile>
+
+        <!--生产环境-->
+        <profile>
+            <id>prod</id>
+            <properties>
+                <!--当前环境-->
+                <env>prod</env>
+                <nacosAddr>127.0.0.1:8848</nacosAddr>
+                <!--Nacos配置中心命名空间,用于支持多环境.这里必须使用ID:b1741b1f-d032-4b74-aa5a-6b6beb0d1f15，不能使用名称,默认为空-->
+                <nacosNamespace>prod</nacosNamespace>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
+        <!--配合profiles中配置的环境文件使用，不配置项目启动报错-->
+        <resources>
+<!--            <resource>-->
+<!--                <directory>src/main/resources</directory>-->
+<!--                &lt;!&ndash; 处理文件时替换文件中的变量 &ndash;&gt;-->
+<!--                <filtering>true</filtering>-->
+<!--                <excludes>-->
+<!--                    &lt;!&ndash; 打包时排除文件&ndash;&gt;-->
+<!--                    <exclude>bootstrap.yml</exclude>-->
+<!--                    <exclude>bootstrap-dev.yml</exclude>-->
+<!--                    <exclude>bootstrap-test.yml</exclude>-->
+<!--                    <exclude>bootstrap-prod.yml</exclude>-->
+<!--                </excludes>-->
+<!--            </resource>-->
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- 处理文件时替换文件中的变量 -->
+                <filtering>true</filtering>
+                <!-- 打包时所包含的文件 -->
+                <includes>
+                    <include>**/*</include>
+                    <include>bootstrap.yml</include>
+                    <include>bootstrap-${env}.yml</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 @RefreshScope
 public class TestController {
-    @Value("${activate}")
-    private String activate;
+    @Value("${spring.profiles.active}")
+    private String active;
 
     @Value("${name}")
     private String name;
@@ -25,7 +25,7 @@ public class TestController {
 
     @GetMapping("/devTest")
     public String test() {
-        String result = "当前环境为：" + activate + "; name：" + name + "; config：" + config;
+        String result = "当前环境为：" + active + "; name：" + name + "; config：" + config;
         return result;
     }
 }
