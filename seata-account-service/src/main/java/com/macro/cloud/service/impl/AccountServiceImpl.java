@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
+import io.seata.core.context.RootContext;
+
 /**
  * 账户业务实现类
  * Created by macro on 2019/11/11.
@@ -26,12 +28,15 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void decrease(Long userId, BigDecimal money) {
         LOGGER.info("------->account-service中扣减账户余额开始");
+        LOGGER.info("Seata全局事务id=================>{}", RootContext.getXID());
         //模拟超时异常，全局事务回滚
-//        try {
-//            Thread.sleep(30*1000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+       // try {
+       //     Thread.sleep(30*1000);
+       // } catch (InterruptedException e) {
+       //     e.printStackTrace();
+       // }
+       //模拟异常，全局事务回滚
+        int i = 10/0;
         accountDao.decrease(userId,money);
         LOGGER.info("------->account-service中扣减账户余额结束");
     }

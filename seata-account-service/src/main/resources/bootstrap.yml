@@ -1,22 +1,32 @@
-server:
-  port: 8182
+# bootstrap.properties -> bootstrap.yml -> application.properties.bak -> application.yml1 ，
+#其中 bootstrap.properties 配置为最高优先级
 spring:
+  profiles:
+    #这里使用active指定子bootstrap配置文件的后缀,将bootstrap的多环境配置隔离到了不同环境文件中。所以我们只需要在子配置文件中配置nacos的多环境即可
+    active: dev
   application:
     name: seata-account-service
   cloud:
     nacos:
       discovery:
+        # 下面config 里写了，这里可以不写
         server-addr: localhost:8848 #Nacos 服务注册与发现地址
+        namespace: dev #命名空间ID
+        group: DEV_GROUP #分组, 新版本不能使用${NACOS_GROUP:DEV_GROUP}的方式从bootstrap-dev.yml或者pom中取值，只能直接赋值
       config:
-        server-addr: localhost:8848 #Nacos 配置中心地址
-        namespace: prod #命名空间ID
-        username: nacos
-        password: nacos
-#        file-extension: yml #这里我们获取的yaml格式的配置
-#        shared-configs: #配置共享文件
-#          - data-id: application-common.yml
-#            group: public  #自定义组
-#            refresh: true # 配置文件修改后是否动态刷新配置
-#          - data-id: application-custom.yml
-#            group: public #自定义组
-#            refresh: false
+        # Nacos 配置中心地址，必须要写
+        server-addr: localhost:8848
+        namespace: dev #命名空间ID
+        group: ACCOUNT_GROUP #分组，新版本不能使用${NACOS_GROUP:DEV_GROUP}的方式取值，只能直接赋值
+        prefix: application  #prefix不配置得话 默认为 ${spring.application.name} 的值
+        file-extension: yml #配置文件格式
+        shared-configs: #配置共享文件
+          - data-id: common-mysql.yml
+            group: ACCOUNT_GROUP
+            refresh: true
+          - data-id: common-base.yml
+            group: ACCOUNT_GROUP
+            refresh: true
+
+# 配置文件的优先级（优先级大的会覆盖优先级小的，并且会形成互补）
+# (spring.application.name-profile.yml > 默认配置文件(spring.application.name.yml) > extension-configs(下标越大优先级就越大) > shared-configs(下标越大优先级就越大)

@@ -209,8 +209,8 @@
                 <!-- 打包时所包含的文件 -->
                 <includes>
                     <include>**/*</include>
-                    <include>bootstrap.yml</include>
-                    <include>bootstrap-${env}.yml</include>
+<!--                    <include>bootstrap.yml</include>-->
+<!--                    <include>bootstrap-${env}.yml</include>-->
                 </includes>
             </resource>
         </resources>

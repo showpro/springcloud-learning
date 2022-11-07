@@ -23,7 +23,7 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public void decrease(Long productId, Integer count) {
         LOGGER.info("------->storage-service中扣减库存开始");
-        LOGGER.info("# seata xid:{}", RootContext.getXID());
+        LOGGER.info("Seata全局事务id=================>{}", RootContext.getXID());
         storageDao.decrease(productId,count);
         LOGGER.info("------->storage-service中扣减库存结束");
     }

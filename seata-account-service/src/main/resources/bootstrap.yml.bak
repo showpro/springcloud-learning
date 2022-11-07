@@ -1,0 +1,22 @@
+server:
+  port: 8182
+spring:
+  application:
+    name: seata-account-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 #Nacos 服务注册与发现地址
+      config:
+        server-addr: localhost:8848 #Nacos 配置中心地址
+        namespace: prod #命名空间ID
+        username: nacos
+        password: nacos
+#        file-extension: yml #这里我们获取的yaml格式的配置
+#        shared-configs: #配置共享文件
+#          - data-id: application-common.yml
+#            group: public  #自定义组
+#            refresh: true # 配置文件修改后是否动态刷新配置
+#          - data-id: application-custom.yml
+#            group: public #自定义组
+#            refresh: false

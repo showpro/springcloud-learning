@@ -12,7 +12,7 @@ spring:
         # 下面config 里写了，这里可以不写
         server-addr: localhost:8848 #Nacos 服务注册与发现地址
         namespace: dev #命名空间ID
-        group: STORAGE_GROUP #分组, 新版本不能使用${NACOS_GROUP:DEV_GROUP}的方式从bootstrap-dev.yml或者pom中取值，只能直接赋值
+        group: DEV_GROUP #分组, 新版本不能使用${NACOS_GROUP:DEV_GROUP}的方式从bootstrap-dev.yml或者pom中取值，只能直接赋值
       config:
         # Nacos 配置中心地址，必须要写
         server-addr: localhost:8848

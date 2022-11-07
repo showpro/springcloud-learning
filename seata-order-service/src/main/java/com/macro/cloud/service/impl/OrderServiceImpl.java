@@ -5,11 +5,14 @@ import com.macro.cloud.domain.Order;
 import com.macro.cloud.service.AccountService;
 import com.macro.cloud.service.OrderService;
 import com.macro.cloud.service.StorageService;
+
+import io.seata.core.context.RootContext;
 import io.seata.spring.annotation.GlobalTransactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 订单业务实现类
@@ -31,9 +34,10 @@ public class OrderServiceImpl implements OrderService {
      * 流程：创建订单->调用库存服务扣减库存->调用账户服务扣减账户余额->修改订单状态
      */
     @Override
-    @GlobalTransactional(name = "fsp-create-order",rollbackFor = Exception.class)
+    @GlobalTransactional(name = "create-order" ,rollbackFor=Exception.class)
     public void create(Order order) {
         LOGGER.info("------->下单开始");
+        LOGGER.info("Seata全局事务id=================>{}", RootContext.getXID());
         //本应用创建订单
         orderDao.create(order);
 
