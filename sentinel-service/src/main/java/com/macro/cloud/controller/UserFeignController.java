@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ * 与 Feign 结合使用
+ *
  * Created by macro on 2019/8/29.
  */
 @RestController
@@ -15,6 +17,12 @@ public class UserFeignController {
     @Autowired
     private UserService userService;
 
+    /**
+     * <a href="http://localhost:8401/user/4">...</a>
+     *
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
     public CommonResult getUser(@PathVariable Long id) {
         return userService.getUser(id);

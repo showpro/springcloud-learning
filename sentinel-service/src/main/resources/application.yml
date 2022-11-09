@@ -7,23 +7,27 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848 #配置Nacos地址
+    # 配置控制台信息
     sentinel:
       transport:
         dashboard: localhost:8080 #配置sentinel dashboard地址
-        port: 8719
-      datasource:
-        ds1:
-          nacos:
+        port: 8719 #端口配置会在应用对应的机器上启动一个 Http Server，该 Server 会与 Sentinel 控制台做交互。
+      datasource: #动态数据源，可解决服务关闭流控规则消失，sentinel 支持如下 6 种数据持久化方式
+        ds1:  #ds1 是 ReadableDataSource 的名字，可随意编写
+          nacos: # nacos 就是对应具体的数据源, 还有 file ，zk ， apollo ，redis，consul等。下面的配置就是这些具体数据源各自的配置
             server-addr: localhost:8848
             dataId: ${spring.application.name}-sentinel
+            namespace: sentinel
             groupId: DEFAULT_GROUP
-            data-type: json
-            rule-type: flow
+            data-type: json  #表示 Converter 类型，默认提供两种内置的值，分别是 json 和 xml (不填默认是json)。
+            rule-type: flow  #该数据源中的规则属于哪种类型的规则
 feign:
   sentinel:
-    enabled: true #打开sentinel对feign的支持
+    enabled: true #打开 sentinel对 feign 的支持
+
 service-url:
   user-service: http://nacos-user-service
+
 management:
   endpoints:
     web:

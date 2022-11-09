@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * 熔断功能
+ * 熔断功能，对服务间调用进行保护，对故障应用进行熔断操作，
  * Created by macro on 2019/11/7.
  */
 @RestController
@@ -26,12 +26,27 @@ public class CircleBreakerController {
     @Value("${service-url.user-service}")
     private String userServiceUrl;
 
+    /**
+     * <a href="http://localhost:8401/breaker/fallback/4">...</a>
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping("/fallback/{id}")
     @SentinelResource(value = "fallback",fallback = "handleFallback")
     public CommonResult fallback(@PathVariable Long id) {
         return restTemplate.getForObject(userServiceUrl + "/user/{1}", CommonResult.class, id);
     }
 
+    /**
+     * <a href="http://localhost:8401/breaker/fallbackException/2">...</a>
+     *
+     * 由于我们使用了exceptionsToIgnore参数忽略了NullPointerException，
+     * 所以我们访问接口报空指针时不会发生服务降级
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping("/fallbackException/{id}")
     @SentinelResource(value = "fallbackException",fallback = "handleFallback2", exceptionsToIgnore = {NullPointerException.class})
     public CommonResult fallbackException(@PathVariable Long id) {

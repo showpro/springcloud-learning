@@ -6,6 +6,7 @@ import com.macro.cloud.service.UserService;
 import org.springframework.stereotype.Component;
 
 /**
+ * 用于处理UserService接口服务降级逻辑
  * Created by macro on 2019/9/5.
  */
 @Component
