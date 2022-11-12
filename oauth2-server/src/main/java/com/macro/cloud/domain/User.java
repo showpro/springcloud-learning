@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
+ * 用户信息
+ *
  * Created by macro on 2019/8/29.
  */
 public class User implements UserDetails {

@@ -38,8 +38,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private UserService userService;
 
     @Autowired
-//    @Qualifier("redisTokenStore")
-    @Qualifier("jwtTokenStore")
+//    @Qualifier("redisTokenStore")  //指定令牌的存储策略为Redis
+    @Qualifier("jwtTokenStore")  //指定令牌的存储策略为JWT
     private TokenStore tokenStore;
     @Autowired
     private JwtAccessTokenConverter jwtAccessTokenConverter;
@@ -51,6 +51,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+        // endpoints.authenticationManager(authenticationManager)
+        //     .userDetailsService(userService)
+        //     .tokenStore(tokenStore);//配置令牌存储策略为redis
+
+
         TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
         List<TokenEnhancer> delegates = new ArrayList<>();
         delegates.add(jwtTokenEnhancer); //配置JWT的内容增强器
@@ -58,7 +63,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         enhancerChain.setTokenEnhancers(delegates);
         endpoints.authenticationManager(authenticationManager)
                 .userDetailsService(userService)
-                .tokenStore(tokenStore) //配置令牌存储策略
+                .tokenStore(tokenStore) //配置令牌存储策略jwt
                 .accessTokenConverter(jwtAccessTokenConverter)
                 .tokenEnhancer(enhancerChain);
     }
@@ -71,10 +76,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .accessTokenValiditySeconds(3600)
                 .refreshTokenValiditySeconds(864000)
 //                .redirectUris("http://www.baidu.com")
-                .redirectUris("http://localhost:9501/login") //单点登录时配置
-                .autoApprove(true) //自动授权配置
+                .redirectUris("http://localhost:9501/login") //授权后重定向跳转地址。单点登录时配置
+                .autoApprove(true) //如果需要跳过授权操作进行自动授权时配置配置
                 .scopes("all")
-                .authorizedGrantTypes("authorization_code","password","refresh_token");
+                .authorizedGrantTypes("authorization_code","password","refresh_token"); //添加refresh_token的授权模式
     }
 
     @Override

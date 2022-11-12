@@ -20,7 +20,8 @@ public class UserController {
     @GetMapping("/getCurrentUser")
     public Object getCurrentUser(Authentication authentication, HttpServletRequest request) {
         String header = request.getHeader("Authorization");
-        String token = StrUtil.subAfter(header, "bearer ", false);
+        String token = StrUtil.subAfter(header, "bearer ", false);//bearer类型的token
+        // 使用jjwt工具类来解析Authorization头中存储的JWT内容
         return Jwts.parser()
                 .setSigningKey("test_key".getBytes(StandardCharsets.UTF_8))
                 .parseClaimsJws(token)

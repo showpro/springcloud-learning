@@ -1,6 +1,7 @@
 package com.macro.cloud.service;
 
 import com.macro.cloud.domain.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,11 +12,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * 添加 UserService 实现 UserDetailsService 接口，用于加载用户信息
+ *
  * Created by macro on 2019/9/30.
  */
 @Service
@@ -28,14 +32,17 @@ public class UserService implements UserDetailsService {
     public void initData() {
         String password = passwordEncoder.encode("123456");
         userList = new ArrayList<>();
-        userList.add(new User("macro", password, AuthorityUtils.commaSeparatedStringToAuthorityList("admin")));
-        userList.add(new User("andy", password, AuthorityUtils.commaSeparatedStringToAuthorityList("client")));
-        userList.add(new User("mark", password, AuthorityUtils.commaSeparatedStringToAuthorityList("client")));
+        userList.add(new User("zhan", password, AuthorityUtils.commaSeparatedStringToAuthorityList("admin")));
+        userList.add(new User("zhangsan", password, AuthorityUtils.commaSeparatedStringToAuthorityList("client")));
+        userList.add(new User("lisi", password, AuthorityUtils.commaSeparatedStringToAuthorityList("client")));
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        List<User> findUserList = userList.stream().filter(user -> user.getUsername().equals(username)).collect(Collectors.toList());
+        List<User> findUserList = userList.stream()
+            .filter(user -> user.getUsername()
+                .equals(username))
+            .collect(Collectors.toList());
         if (!CollectionUtils.isEmpty(findUserList)) {
             return findUserList.get(0);
         } else {
