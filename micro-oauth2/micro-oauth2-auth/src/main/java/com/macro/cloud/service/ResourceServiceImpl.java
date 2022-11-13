@@ -22,6 +22,9 @@ public class ResourceServiceImpl {
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;
 
+    /**
+     * 初始化的时候把资源与角色匹配关系缓存到Redis中，方便网关服务进行鉴权的时候获取。
+     */
     @PostConstruct
     public void initData() {
         resourceRolesMap = new TreeMap<>();

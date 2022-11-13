@@ -10,7 +10,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 获取登录用户信息
+ * 从请求的Header中直接获取登录用户信息
  * Created by macro on 2020/6/17.
  */
 @Component

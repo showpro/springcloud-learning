@@ -39,6 +39,13 @@ public class UserServiceImpl implements UserDetailsService {
         userList.add(new UserDTO(2L,"andy", password,1, CollUtil.toList("TEST")));
     }
 
+    /**
+     * 加载用户信息
+     *
+     * @param username the username identifying the user whose data is required.
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         List<UserDTO> findUserList = userList.stream().filter(item -> item.getUsername().equals(username)).collect(Collectors.toList());

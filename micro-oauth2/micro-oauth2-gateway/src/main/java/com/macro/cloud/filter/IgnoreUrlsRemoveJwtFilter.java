@@ -2,6 +2,10 @@ package com.macro.cloud.filter;
 
 import com.macro.cloud.config.IgnoreUrlsConfig;
 import com.macro.cloud.constant.AuthConstant;
+import com.nimbusds.jose.shaded.json.JSONArray;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
@@ -21,8 +25,16 @@ import java.util.List;
  */
 @Component
 public class IgnoreUrlsRemoveJwtFilter implements WebFilter {
+    static Logger logger = LoggerFactory.getLogger(IgnoreUrlsRemoveJwtFilter.class);
     @Autowired
     private IgnoreUrlsConfig ignoreUrlsConfig;
+
+    /**
+     *
+     * @param exchange
+     * @param chain
+     * @return
+     */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
@@ -32,7 +44,9 @@ public class IgnoreUrlsRemoveJwtFilter implements WebFilter {
         List<String> ignoreUrls = ignoreUrlsConfig.getUrls();
         for (String ignoreUrl : ignoreUrls) {
             if (pathMatcher.match(ignoreUrl, uri.getPath())) {
+                //向 headers中放文件,name:Authorization , value:""，记得build
                 request = exchange.getRequest().mutate().header("Authorization", "").build();
+                //将现在的 request 变成 change对象。这样发送给路由的request中就放了我们自定义的数据了
                 exchange = exchange.mutate().request(request).build();
                 return chain.filter(exchange);
             }

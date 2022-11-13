@@ -27,7 +27,7 @@ import reactor.core.publisher.Mono;
  */
 @AllArgsConstructor
 @Configuration
-@EnableWebFluxSecurity
+@EnableWebFluxSecurity //由于Gateway使用的是WebFlux，所以需要使用@EnableWebFluxSecurity注解开启；
 public class ResourceServerConfig {
     private final AuthorizationManager authorizationManager;
     private final IgnoreUrlsConfig ignoreUrlsConfig;

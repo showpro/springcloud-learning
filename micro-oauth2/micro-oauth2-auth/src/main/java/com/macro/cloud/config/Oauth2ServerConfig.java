@@ -32,6 +32,9 @@ import java.util.List;
 public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
+    /**
+     * 加载用户信息
+     */
     private final UserServiceImpl userDetailsService;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenEnhancer jwtTokenEnhancer;
@@ -76,7 +79,9 @@ public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     public KeyPair keyPair() {
         //从classpath下的证书中获取秘钥对
         KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("jwt.jks"), "123456".toCharArray());
-        return keyStoreKeyFactory.getKeyPair("jwt", "123456".toCharArray());
+        KeyPair keyPair = keyStoreKeyFactory.getKeyPair("jwt", "123456".toCharArray());
+        System.out.println("---------->>>>>> 从classpath下的证书中获取秘钥对: " + keyPair);
+        return keyPair;
     }
 
 }

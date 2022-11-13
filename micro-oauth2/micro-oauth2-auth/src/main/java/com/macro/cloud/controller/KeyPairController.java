@@ -20,6 +20,11 @@ public class KeyPairController {
     @Autowired
     private KeyPair keyPair;
 
+    /**
+     * 由于我们的网关服务需要RSA的公钥来验证签名是否合法，所以认证服务需要有个接口把公钥暴露出来；
+     *
+     * @return
+     */
     @GetMapping("/rsa/publicKey")
     public Map<String, Object> getKey() {
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();

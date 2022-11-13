@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 测试接口
+ * 测试接口，网关验证通过即可访问
  * Created by macro on 2020/6/19.
  */
 @RestController
