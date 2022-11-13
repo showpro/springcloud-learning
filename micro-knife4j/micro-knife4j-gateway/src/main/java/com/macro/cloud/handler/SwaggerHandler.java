@@ -11,7 +11,7 @@ import springfox.documentation.swagger.web.*;
 import java.util.Optional;
 
 /**
- * 自定义Swagger的各个配置节点
+ * 自定义Swagger的各个配置节点，简单来说就是自定义Swagger内部的各个获取数据的接口；
  * Created by macro on 2020/7/9.
  */
 @RestController
@@ -49,7 +49,7 @@ public class SwaggerHandler {
     }
 
     /**
-     * Swagger资源配置，微服务中这各个服务的api-docs信息
+     * Swagger资源配置，微服务中获取各个服务的api-docs信息
      */
     @GetMapping("/swagger-resources")
     public Mono<ResponseEntity> swaggerResources() {

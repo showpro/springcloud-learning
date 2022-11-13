@@ -43,7 +43,7 @@ public class Swagger2Config {
         return new ApiInfoBuilder()
                 .title("micro-knife4j-order")
                 .description("订单服务API文档")
-                .contact(new Contact("macro",null,null))
+                .contact(new Contact("zhan",null,null))
                 .version("1.0")
                 .build();
     }

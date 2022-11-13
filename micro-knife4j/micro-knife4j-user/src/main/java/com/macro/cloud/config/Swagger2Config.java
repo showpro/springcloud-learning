@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  */
 @Configuration
 @EnableSwagger2
-@EnableKnife4j
+@EnableKnife4j//开启knife4j的增强功能
 public class Swagger2Config {
     @Bean
     public Docket createRestApi(){
@@ -43,7 +43,8 @@ public class Swagger2Config {
         return new ApiInfoBuilder()
                 .title("micro-knife4j-user")
                 .description("用户服务API文档")
-                .contact(new Contact("macro",null,null))
+                .contact(new Contact("zhan",null,"244798@qq.com"))
+                .termsOfServiceUrl("https://xxxx.info/")
                 .version("1.0")
                 .build();
     }

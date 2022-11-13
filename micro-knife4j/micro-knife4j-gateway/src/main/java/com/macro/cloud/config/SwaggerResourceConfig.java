@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Swagger资源配置
+ * Swagger资源配置，用于聚合其他微服务中Swagger的api-docs访问路径
  * Created by macro on 2020/7/9.
  */
 @Slf4j
